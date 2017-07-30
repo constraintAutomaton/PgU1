@@ -1,0 +1,14 @@
+self.cRewind = '<'
+self.cFoward = '>'
+self.cQuit = 'q'
+self.cPause = 'p'
+self.cDvolume = '-'
+self.cIvolume = '+'
+self.cSeekm30 = '\027[D'
+self.cSeekp30 = '\027[C'
+self.cSeekm600 = '\027[B'
+self.cSeekp600 = '\027[A'
+self.cPosition = "--win \d,\d,\d,\d" ##########
+
+
+

@@ -1,0 +1,10 @@
+The goal of the module is to control the camera on the robot to provide vision. 
+the module will:
+
+	-Stream video
+	-record video (save the recording)
+	-take picture
+
+TO DO :
+
+ALL ! 
