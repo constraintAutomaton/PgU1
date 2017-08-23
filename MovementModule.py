@@ -11,9 +11,9 @@ class Movement():
         self.motorCb = 7
         self.motorCf = 11
         self.motorBf = 37
-        self.motorDb = 35
+        self.motorDb = 31
         self.motorDf = 33
-        self.motorBb = 31
+        self.motorBb = 35
         self.motorAb = 13
         self.motorAf = 15
 
@@ -130,7 +130,7 @@ class Movement():
 
         self.holdOn(duration,stopable,distance,angle,self.testTlb)
 
-    def stopAllMotor(self,duration=0,stopable=False,distance=0,angle=0):
+    def stopAllMotor(self):
         for motor in self.listMotor:
             gpio.output(motor,False)
         
@@ -156,7 +156,7 @@ class Movement():
             
             duration = a*distance*(speedPour/100)+k
 
-            print(duration)
+            
 
             return duration
         except:

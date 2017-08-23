@@ -32,7 +32,7 @@ class Command(Camera,Movement):
             print('exit')
         elif command.lower() == 'i':
             self.info()
-        elif command.lower()[0] == 't': # regardé delay photo semble pas instatané peut-être mettre des thread ?
+        elif command.lower()[0] == 't' and len(command.lower()) == 1: # regardé delay photo semble pas instatané peut-être mettre des thread ?
             
             if 'd' in command.lower() and 'n' in command.lower():
                 delay = re.search('t d(.*) n',command.lower()).group(1)
@@ -73,6 +73,126 @@ class Command(Camera,Movement):
                 self.forward(duration=float(duration))
             elif 's' in command.lower():
                 self.forward(stopable=True)
+            elif 'x' in command.lower():
+                distance = command.lower()[3:]
+                self.forward(distance=float(distance))
+            else:
+                self.forward()
+
+        elif command.lower()[0] == 'b':
+            if 't' in command.lower() and 'x' in command.lower() :
+                print('enter only one type of movement')
+                
+            elif 's' in command.lower() and 'x' in command.lower() :
+                print('enter only one type of movement')
+                
+            elif 't' in command.lower() and 's' in command.lower() :
+                print('enter only one type of movement')
+                
+            elif 't' in command.lower() :
+                duration = command.lower()[3:]
+                self.backward(duration=float(duration))
+            elif 's' in command.lower():
+                self.backward(stopable=True)
+            elif 'x' in command.lower():
+                distance = command.lower()[3:]
+                self.backward(distance=float(distance))
+            else:
+                self.backward()
+
+        elif 'trf' in command.lower():
+            if 't' in command.lower() and 'x' in command.lower() :
+                print('enter only one type of movement')
+                
+            elif 's' in command.lower() and 'x' in command.lower() :
+                print('enter only one type of movement')
+                
+            elif 't' in command.lower() and 's' in command.lower() and len(command.lower()) < 3 :
+                print('enter only one type of movement')
+            elif len(command.lower()) > 3:
+                if command.lower()[4] == 't'  :
+                    duration = command.lower()[5:]
+                    self.turnRF(duration=float(duration))
+                elif command.lower()[4] == 's':
+                    self.turnRF(stopable=True)
+                elif command.lower()[4] == 'x':
+                    distance = command.lower()[4:]
+                    self.turnRF(distance=float(distance))
+            else:
+                self.turnRF()
+            
+
+                
+        elif 'trb' in command.lower():
+            if 't' in command.lower() and 'x' in command.lower() :
+                print('enter only one type of movement')
+                
+            elif 's' in command.lower() and 'x' in command.lower() :
+                print('enter only one type of movement')
+                
+            elif 't' in command.lower() and 's' in command.lower() and len(command.lower()) < 3 :
+                print('enter only one type of movement')
+            elif len(command.lower()) > 3:
+                if command.lower()[4] == 't'  :
+                    duration = command.lower()[5:]
+                    self.turnRB(duration=float(duration))
+                elif command.lower()[4] == 's':
+                    self.turnRB(stopable=True)
+                elif command.lower()[4] == 'x':
+                    distance = command.lower()[4:]
+                    self.turnRB(distance=float(distance))
+            else:
+                self.turnRB()
+                
+
+        elif 'tlf' in command.lower():
+            if 't' in command.lower() and 'x' in command.lower() :
+                print('enter only one type of movement')
+                
+            elif 's' in command.lower() and 'x' in command.lower() :
+                print('enter only one type of movement')
+                
+            elif 't' in command.lower() and 's' in command.lower() and len(command.lower()) < 3 :
+                print('enter only one type of movement')
+            elif len(command.lower()) > 3:
+                if command.lower()[4] == 't'  :
+                    duration = command.lower()[5:]
+                    self.turnLF(duration=float(duration))
+                elif command.lower()[4] == 's':
+                    self.turnLF(stopable=True)
+                elif command.lower()[4] == 'x':
+                    distance = command.lower()[4:]
+                    self.turnLF(distance=float(distance))
+            else:
+                self.turnLF()
+
+        elif 'tlb' in command.lower():
+            if 't' in command.lower() and 'x' in command.lower() :
+                print('enter only one type of movement')
+                
+            elif 's' in command.lower() and 'x' in command.lower() :
+                print('enter only one type of movement')
+                
+            elif 't' in command.lower() and 's' in command.lower() and len(command.lower()) < 3 :
+                print('enter only one type of movement')
+            elif len(command.lower()) > 3:
+                if command.lower()[4] == 't'  :
+                    duration = command.lower()[5:]
+                    self.turnLB(duration=float(duration))
+                elif command.lower()[4] == 's':
+                    self.turnLB(stopable=True)
+                elif command.lower()[4] == 'x':
+                    distance = command.lower()[4:]
+                    self.turnLB(distance=float(distance))
+            else:
+                self.turnLB()
+        elif 'stop' in command.lower():
+            self.stopAllMotor()
+            print('motor stopped')
+            
+                
+            
+                
             
 
         
@@ -85,14 +205,25 @@ the parameter n is option and give the option to provide a name to the video\n\n
         f = 'f x[] t[] s[] : move foward for a distace of x(mm) or\
 for a duration of t(s) or until the user press a key\n\n'
         
-        bx = 'b x : move backward for a distace of x(mm)\n\n'
-        bt = 'b x : move backward for a duration of t(s)\n\n'
-        trteta = 'tR teta : turn right for an angle of teta(deg)\n\n'
-        trt = 'tR t : turn right for a duration of t(s)\n\n'
-        tlteta = 'tL teta : turn left for an angle of teta(deg)\n\n'
-        tlt = 'tL t : turn left for a duration of t(s)\n\n'
+        b = 'b x[] t[] s[] : move backward for a distace of x(mm) or\
+for a duration of t(s) or until the user press a key\n\n'
+         
+        trf = 'trf x[] t[] s[] : turn foward whit the right wheel for an angle of x(deg) or\
+for a duration of t(s) or until the user press a key\n\n'
 
-        info = q+t+v+f+bx+bt+trteta+trt+tlteta+tlt
+        trb = 'trb x[] t[] s[] : turn back  whith the right wheel for an angle of x(deg) or\
+for a duration of t(s) or until the user press a key\n\n'
+        
+        tlf = 'tlf x[] t[] s[] : turn foward whit the left wheel for an angle of x(deg) or\
+for a duration of t(s) or until the user press a key\n\n'
+
+        tlb = 'tlb x[] t[] s[] : turn back  whith the left wheel for an angle of x(deg) or\
+for a duration of t(s) or until the user press a key\n\n'
+        stop = 'stop any movement'
+        
+        
+
+        info = q+t+v+f+b+trf+trb+tlf+tlb+stop
 
         print(info)
         
