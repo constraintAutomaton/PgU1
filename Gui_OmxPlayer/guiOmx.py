@@ -1,7 +1,7 @@
 from PyQt4 import QtGui
 import sys
 import pexpect
-from threading import Thread
+import threading
 from PyQt4.QtGui import QSound
 import OmxPlayer
 
@@ -12,6 +12,7 @@ class OmxPlayer(QtGui.QMainWindow, OmxPlayer.Ui_MainWindow):
         
         self.btnPlay.clicked.connect(self.play)
         self.btnPause.clicked.connect(self.pause)
+        self.btnFullScreen.clicked.connect(self.fullscreen)
         self.command()
         
         
@@ -31,16 +32,17 @@ class OmxPlayer(QtGui.QMainWindow, OmxPlayer.Ui_MainWindow):
         return '--win {},{},{},{}'.format(x1,y1,x2,y2)
         
     def play(self):
-        x1 = self.lblHere.x() + self.centralwidget.x()
-        y1 = self.lblHere.y() + self.centralwidget.y()
+        #print(self.mapToGlobal())
+        
+        x1 = self.lblHere.pos().x() + self.centralwidget.pos().x()
+        y1 = self.lblHere.pos().y() + self.centralwidget.pos().y()
         x2 = self.lblHere.width()
         y2 = self.lblHere.height()
         print(x1,y1,x2,y2)
         path = '/home/pi/Documents/Python_project/PgU1_code/Video/test___2017-07-24___18:35:38.h264'
         self.omx = pexpect.spawn('omxplayer {} {}'.format(self.moveWindow(x1,y1,x2,y2), path))
         
-        
-        
+    
     def pause(self):
         self.omx.send(self.cPause)
         
@@ -52,6 +54,11 @@ class OmxPlayer(QtGui.QMainWindow, OmxPlayer.Ui_MainWindow):
     def closeEvent(self,event):
         self.omx.send(self.cQuit)
         event.accept()
+    
+    def fullscreen(self):
+        x2 = 640
+        y2 = 480
+        self.omx.send(self.moveWindow(0,0,x2,y2))
 
 
 def main():

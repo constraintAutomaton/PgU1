@@ -1,9 +1,17 @@
-import pexpect
+from MovementModule import Movement
 import time
-path = '/home/pi/Documents/Python_project/PgU1_code/Video/test___2017-07-24___18:35:38.h264'
-child = pexpect.spawn('omxplayer --win "0 0 640 480" {}'.format(path))
-time.sleep(2)
-child.send('p')
-time.sleep(2)
-child.send('q')
-#print(child)
+
+
+test = Movement()
+#test.testSpeed('f',0.5)
+#test.testSpeed('f',1)
+#test.testSpeed('f',1.5)
+#test.deleteTest('testF')
+test.showTest(test.testF)
+test.distanceApprox(98,test.testF,speedPour= 100)
+
+test.kill()
+
+
+
+
