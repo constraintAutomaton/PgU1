@@ -4,10 +4,8 @@ import RPi.GPIO as gpio
 import os
 import re
 import threading
-#from Queue import Queue as queue
+from queue import Queue
 
-global qCamera
-global qMovement
 
 class Command(Camera,Movement):
     def __init__(self,mode=0,name = 'unit001'):
@@ -17,6 +15,8 @@ class Command(Camera,Movement):
     
         self.name = name
         self.run = True
+        self.qCamera = Queue()
+        self.qMovement = Queue()
         
         if mode == 0:
             self.runCommandWindowMode()
@@ -28,12 +28,19 @@ class Command(Camera,Movement):
             command = input('Enter a command: ')
             self.command(command)
             
-    def threadMotorWheel(self, mvt,option):
+            
+    def threadMotorWheel(self, mvt,option={}):
+        self.qMovement.join()
         threadMovement = threading.Thread(target=mvt,kwargs=option)
-        threadMovement.start()
+        self.qMovement.put(lambda: threadMovement.start()) # pour mettre une fonction dans le queue
+        temp = self.qMovement.get()
+        temp()
+        threadMovement.join()
+        self.qMovement.task_done()
+        
     
-    def threadCamera(self,action,option):
-        threadCamera = threading.Thread(target=action,kwargs=option)
+    def threadCamera(self,action,option={}):
+        threadCamera = threading.Thread(target=action,kwargs=option)      
         threadCamera.start()
         
         
@@ -44,33 +51,7 @@ class Command(Camera,Movement):
             print('exit')
         elif command.lower() == 'i':
             self.info()
-        elif command.lower()[0] == 't' and command.lower()[1] == ' ' : # regardé delay photo semble pas instatané peut-être mettre des thread ?
-            
-            if 'd' in command.lower() and 'n' in command.lower():
-                delay = re.search('t d(.*) n',command.lower()).group(1)
-                #self.takePicture(delay=float(delay),nameable=True)
-                self.threadCamera(self.takePicture,{delay:float(delay),nameable:True})
-
-            elif 'd' in command.lower():
-                delay = re.search('t d(.*)',command.lower()).group(1)
-                self.takePicture(delay=float(delay))
-            elif 'n' in command.lower():
-                self.takePicture(nameable=True)
-            else:
-                self.takePicture()
-            print('done')               
-            
-        elif command.lower()[0] == 'v':
-            if 'd' in command.lower() and 'n' in command.lower() :
-                duration = re.search('v d(.*) ',command.lower()).group(1)
-                self.recordVideo(duration=float(duration),nameable=True)
-            
-            elif 's' in command.lower():
-                self.recordVideo(stopable=True)
-            elif 's' in command.lower() and 'n' in command.lower() :
-                self.recordVideo(stopable=True,nameable=True)
-            print('done')
-
+                    
         elif command.lower()[0] == 'f':
             if 't' in command.lower() and 'x' in command.lower() :
                 print('enter only one type of movement')
@@ -83,14 +64,17 @@ class Command(Camera,Movement):
                 
             elif 't' in command.lower() :
                 duration = command.lower()[3:]
-                self.forward(duration=float(duration))
-            elif 's' in command.lower():
+                #self.forward(duration=float(duration))
+                self.threadMotorWheel(self.forward,{'duration':float(duration)})
+            elif 's' in command.lower(): # THREAD
                 self.forward(stopable=True)
             elif 'x' in command.lower():
                 distance = command.lower()[3:]
-                self.forward(distance=float(distance))
+                #self.forward(distance=float(distance))
+                self.threadMotorWheel(self.forward,{'distance':float(distance)})
             else:
-                self.forward()
+               self.threadMotorWheel(self.forward)
+               
 
         elif command.lower()[0] == 'b':
             if 't' in command.lower() and 'x' in command.lower() :
@@ -104,16 +88,20 @@ class Command(Camera,Movement):
                 
             elif 't' in command.lower() :
                 duration = command.lower()[3:]
-                self.backward(duration=float(duration))
-            elif 's' in command.lower():
+                #self.backward(duration=float(duration))
+                self.threadMotorWheel(self.backward,{'duration':float(duration)})
+            elif 's' in command.lower(): # THREAD
                 self.backward(stopable=True)
             elif 'x' in command.lower():
                 distance = command.lower()[3:]
                 self.backward(distance=float(distance))
+                self.threadMotorWheel(self.backward,{'distance':float(distance)})
             else:
-                self.backward()
+                self.threadMotorWheel(self.backward)
+                
 
-        elif 'trf' in command.lower():
+        elif 'trf' in command.lower() :
+            
             if 't' in command.lower() and 'x' in command.lower() :
                 print('enter only one type of movement')
                 
@@ -125,14 +113,18 @@ class Command(Camera,Movement):
             elif len(command.lower()) > 3:
                 if command.lower()[4] == 't'  :
                     duration = command.lower()[5:]
-                    self.turnRF(duration=float(duration))
-                elif command.lower()[4] == 's':
+                    #self.turnRF(duration=float(duration))
+                    self.threadMotorWheel(self.turnRF,{'duration':float(duration)})
+                elif command.lower()[4] == 's': # THREAD
                     self.turnRF(stopable=True)
                 elif command.lower()[4] == 'x':
                     distance = command.lower()[4:]
-                    self.turnRF(distance=float(distance))
+                    #self.turnRF(distance=float(distance))
+                    self.threadMotorWheel(self.turnRF,{'distance':float(distance)})
             else:
-                self.turnRF()
+                #self.turnRF()
+                self.threadMotorWheel(self.turnRF)
+                
             
 
                 
@@ -148,14 +140,16 @@ class Command(Camera,Movement):
             elif len(command.lower()) > 3:
                 if command.lower()[4] == 't'  :
                     duration = command.lower()[5:]
-                    self.turnRB(duration=float(duration))
-                elif command.lower()[4] == 's':
+                    #self.turnRB(duration=float(duration))
+                    self.threadMotorWheel(self.turnRB,{'duration':float(duration)})
+                elif command.lower()[4] == 's':# THREAD
                     self.turnRB(stopable=True)
                 elif command.lower()[4] == 'x':
                     distance = command.lower()[4:]
-                    self.turnRB(distance=float(distance))
+                    #self.turnRB(distance=float(distance))
+                    self.threadMotorWheel(self.turnRB,{'distance':float(distance)})
             else:
-                self.turnRB()
+                self.threadMotorWheel(self.turnRB)
                 
 
         elif 'tlf' in command.lower():
@@ -170,14 +164,16 @@ class Command(Camera,Movement):
             elif len(command.lower()) > 3:
                 if command.lower()[4] == 't'  :
                     duration = command.lower()[5:]
-                    self.turnLF(duration=float(duration))
-                elif command.lower()[4] == 's':
+                    #self.turnLF(duration=float(duration))
+                    self.threadMotorWheel(self.turnLF,{'duration':float(duration)})
+                elif command.lower()[4] == 's':# THREAD
                     self.turnLF(stopable=True)
                 elif command.lower()[4] == 'x':
                     distance = command.lower()[4:]
-                    self.turnLF(distance=float(distance))
+                    #self.turnLF(distance=float(distance))
+                    self.threadMotorWheel(self.turnLF,{'distance':float(distance)})
             else:
-                self.turnLF()
+                self.threadMotorWheel(self.turnLF)
 
         elif 'tlb' in command.lower():
             if 't' in command.lower() and 'x' in command.lower() :
@@ -191,14 +187,56 @@ class Command(Camera,Movement):
             elif len(command.lower()) > 3:
                 if command.lower()[4] == 't'  :
                     duration = command.lower()[5:]
-                    self.turnLB(duration=float(duration))
-                elif command.lower()[4] == 's':
+                    #self.turnLB(duration=float(duration))
+                    self.threadMotorWheel(self.turnLB,{'duration':float(duration)})
+                elif command.lower()[4] == 's':# THREAD
                     self.turnLB(stopable=True)
                 elif command.lower()[4] == 'x':
                     distance = command.lower()[4:]
-                    self.turnLB(distance=float(distance))
+                    #self.turnLB(distance=float(distance))
+                    self.threadMotorWheel(self.turnLB,{'distance':float(distance)})
+                    
             else:
-                self.turnLB()
+                self.threadMotorWheel(self.turnLB)
+
+        elif command.lower()[0] == 't': # regardé delay photo semble pas instatané peut-être mettre des thread ?
+            
+            if 'd' in command.lower() and 'n' in command.lower(): # THREAD
+                delay = re.search('t d(.*) n',command.lower()).group(1)
+                self.takePicture(delay=float(delay),nameable=True)
+                #self.threadCamera(self.takePicture,{'delay':float(delay),'nameable':True})
+
+            elif 'd' in command.lower():
+                delay = re.search('t d(.*)',command.lower()).group(1)
+                #self.takePicture(delay=float(delay))
+                self.threadCamera(self.takePicture,{'delay':float(delay)})
+                
+            elif 'n' in command.lower(): # THREAD
+                self.takePicture(nameable=True)
+                #self.threadCamera(self.takePicture,{'nameable':True})
+            else:
+                self.threadCamera(self.takePicture)
+            
+                             
+            
+        elif command.lower()[0] == 'v':
+            if 'd' in command.lower() and 'n' in command.lower() : # THREAD
+                duration = re.search('v d(.*) ',command.lower()).group(1)
+                self.recordVideo(duration=float(duration),nameable=True)
+                #self.threadCamera(self.recordVideo.{'duration':float(duration),'nameable':True})
+            
+            elif 's' in command.lower(): # THREAD
+                self.recordVideo(stopable=True)
+                #self.threadCamera(self.recordVideo.{'stopable':True})
+            elif 's' in command.lower() and 'n' in command.lower() : # THREAD
+                self.recordVideo(stopable=True,nameable=True)
+                #self.threadCamera(self.recordVideo.{'nameable':True,'stopable':True})
+            elif 'd' in command.lower():
+                duration = re.search('v d(.*)',command.lower()).group(1)
+                self.threadCamera(self.recordVideo,{'duration':float(duration)})
+                
+
+                
         elif 'stop' in command.lower():
             self.stopAllMotor()
             print('motor stopped')

@@ -25,7 +25,7 @@ class Camera():
             nameFile = '{}___{}.{}'.format(name, date, extension)
         return nameFile
         
-    def takePicture(self,delay=0,nameable=False):
+    def takePicture(self,delay=0.1,nameable=False):
         
         nameFile = self.nameFile(self.extensionPhoto,nameable)
         with PiCamera() as camera:
