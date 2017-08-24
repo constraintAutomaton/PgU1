@@ -3,6 +3,11 @@ from MovementModule import Movement
 import RPi.GPIO as gpio
 import os
 import re
+import threading
+#from Queue import Queue as queue
+
+global qCamera
+global qMovement
 
 class Command(Camera,Movement):
     def __init__(self,mode=0,name = 'unit001'):
@@ -23,20 +28,28 @@ class Command(Camera,Movement):
             command = input('Enter a command: ')
             self.command(command)
             
-            
-
-    def command(self,command): # ajouter des try pour les erreurs
+    def threadMotorWheel(self, mvt,option):
+        threadMovement = threading.Thread(target=mvt,kwargs=option)
+        threadMovement.start()
+    
+    def threadCamera(self,action,option):
+        threadCamera = threading.Thread(target=action,kwargs=option)
+        threadCamera.start()
+        
+        
+    def command(self,command): 
         if command.lower() == 'q':
             self.run = False
             self.kill()
             print('exit')
         elif command.lower() == 'i':
             self.info()
-        elif command.lower()[0] == 't' and len(command.lower()) == 1: # regardé delay photo semble pas instatané peut-être mettre des thread ?
+        elif command.lower()[0] == 't' and command.lower()[1] == ' ' : # regardé delay photo semble pas instatané peut-être mettre des thread ?
             
             if 'd' in command.lower() and 'n' in command.lower():
                 delay = re.search('t d(.*) n',command.lower()).group(1)
-                self.takePicture(delay=float(delay),nameable=True)
+                #self.takePicture(delay=float(delay),nameable=True)
+                self.threadCamera(self.takePicture,{delay:float(delay),nameable:True})
 
             elif 'd' in command.lower():
                 delay = re.search('t d(.*)',command.lower()).group(1)
@@ -191,7 +204,7 @@ class Command(Camera,Movement):
             print('motor stopped')
             
                 
-            
+        
                 
             
 
