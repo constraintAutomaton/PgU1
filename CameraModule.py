@@ -30,6 +30,7 @@ class Camera():
         nameFile = self.nameFile(self.extensionPhoto,nameable)
         with PiCamera() as camera:
            camera.resolution = self.resolutionPhoto
+           camera.vflip = True
            time.sleep(delay)
            camera.capture(nameFile)
           
@@ -43,6 +44,7 @@ class Camera():
             with PiCamera() as camera:
                 camera.resolution= self.resolutionVideo
                 camera.framerate = 60
+                camera.vflip = True
                 while stopable:
                     camera.start_recording(nameFile)
                     command = input('press enter to stop: ')
@@ -56,6 +58,7 @@ class Camera():
             with PiCamera() as camera:
              camera.resolution= self.resolutionVideo
              camera.framerate = 60
+             camera.vflip = True
              camera.start_recording(nameFile)
              #camera.start_preview(fullscreen = False, window = (100,100,640,480))
              camera.wait_recording(duration)
@@ -63,6 +66,8 @@ class Camera():
              #camera.stop_preview()
          
         shutil.move(nameFile,self.destinationVideo)
+
+    
 
 
      
