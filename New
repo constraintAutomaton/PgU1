@@ -1,0 +1,9 @@
+gpio.setmode(gpio.BOARD)
+        self.motorCb = 7
+        self.motorCf = 11
+        self.motorBf = 37
+        self.motorDb = 31
+        self.motorDf = 33
+        self.motorBb = 35
+        self.motorAb = 13
+        self.motorAf = 15

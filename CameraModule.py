@@ -25,8 +25,8 @@ class Camera():
             nameFile = '{}___{}.{}'.format(name, date, extension)
         return nameFile
         
-    def takePicture(self,delay=0.1,nameable=False):
-        
+    def takePicture(self,delay=0.1,nameable=False,stopable = False,duration=0):
+        #duration and stopable is useless it's just for the command in the actionThread
         nameFile = self.nameFile(self.extensionPhoto,nameable)
         with PiCamera() as camera:
            camera.resolution = self.resolutionPhoto
@@ -36,7 +36,8 @@ class Camera():
         shutil.move(nameFile,self.destinationPhoto)
         
     
-    def recordVideo(self,duration=0,nameable=False,stopable = False):
+    def recordVideo(self,duration=0,nameable=False,stopable = False,delay=0):
+        #same photo
         nameFile = self.nameFile(self.extensionVideo,nameable)
         if stopable:
             with PiCamera() as camera:
@@ -62,6 +63,7 @@ class Camera():
              #camera.stop_preview()
          
         shutil.move(nameFile,self.destinationVideo)
+
 
      
 

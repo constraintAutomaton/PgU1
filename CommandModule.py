@@ -17,6 +17,8 @@ class Command(Camera,Movement):
         self.run = True
         self.qCamera = Queue()
         self.qMovement = Queue()
+        self.threadMovement = None
+        self.threadCamera = None
         
         if mode == 0:
             self.runCommandWindowMode()
@@ -29,20 +31,20 @@ class Command(Camera,Movement):
             self.command(command)
             
             
-    def threadMotorWheel(self, mvt,option={}):
+    def actionThreadMovement(self, mvt=None,duration=0,stopable=False,distance=0,angle=0):
         self.qMovement.join()
-        threadMovement = threading.Thread(target=mvt,kwargs=option)
-        self.qMovement.put(lambda: threadMovement.start()) # pour mettre une fonction dans le queue
-        temp = self.qMovement.get()
-        temp()
-        threadMovement.join()
+        self.qMovement.put(lambda: mvt(duration=duration,stopable=stopable,distance=distance,angle=angle)) # pour mettre une fonction dans le queue
+        callFuction = self.qMovement.get()
+        callFuction()
         self.qMovement.task_done()
         
     
-    def threadCamera(self,action,option={}):
-        threadCamera = threading.Thread(target=action,kwargs=option)      
-        threadCamera.start()
-        
+    def actionThreadCamera(self,action,delay=0.5,nameable=False,duration=0,stopable = False):
+        self.qCamera.join()
+        self.qCamera.put(lambda: action(delay=delay,nameable=nameable,duration=duration,stopable=stopable))
+        callFuction = self.qCamera.get()
+        callFuction()
+        self.qCamera.task_done()
         
     def command(self,command): 
         if command.lower() == 'q':
@@ -65,16 +67,17 @@ class Command(Camera,Movement):
             elif 't' in command.lower() :
                 duration = command.lower()[3:]
                 #self.forward(duration=float(duration))
-                self.threadMotorWheel(self.forward,{'duration':float(duration)})
+                self.threadMovement = threading.Thread(target=self.actionThreadMovement,kwargs={'mvt':self.forward,'duration':float(duration)})
             elif 's' in command.lower(): # THREAD
                 self.forward(stopable=True)
             elif 'x' in command.lower():
                 distance = command.lower()[3:]
                 #self.forward(distance=float(distance))
-                self.threadMotorWheel(self.forward,{'distance':float(distance)})
+                self.threadMovement = threading.Thread(target=self.actionThreadMovement,kwargs={'mvt':self.forward,'distance':float(distance)})
             else:
-               self.threadMotorWheel(self.forward)
-               
+               self.threadMovement = threading.Thread(target=self.actionThreadMovement,kwargs={'mvt':self.forward})
+            self.threadMovement.start()
+              
 
         elif command.lower()[0] == 'b':
             if 't' in command.lower() and 'x' in command.lower() :
@@ -89,15 +92,17 @@ class Command(Camera,Movement):
             elif 't' in command.lower() :
                 duration = command.lower()[3:]
                 #self.backward(duration=float(duration))
-                self.threadMotorWheel(self.backward,{'duration':float(duration)})
+                self.threadMovement = threading.Thread(target=self.actionThreadMovement,kwargs={'mvt':self.backward,'duration':float(duration)})
+
             elif 's' in command.lower(): # THREAD
                 self.backward(stopable=True)
             elif 'x' in command.lower():
                 distance = command.lower()[3:]
-                self.backward(distance=float(distance))
-                self.threadMotorWheel(self.backward,{'distance':float(distance)})
+                #self.backward(distance=float(distance))
+                self.threadMovement = threading.Thread(target=self.actionThreadMovement,kwargs={'mvt':self.backward,'distance':float(distance)})
             else:
-                self.threadMotorWheel(self.backward)
+                self.threadMovement = threading.Thread(target=self.actionThreadMovement,kwargs={'mvt':self.backward})
+            self.threadMovement.start()
                 
 
         elif 'trf' in command.lower() :
@@ -114,19 +119,18 @@ class Command(Camera,Movement):
                 if command.lower()[4] == 't'  :
                     duration = command.lower()[5:]
                     #self.turnRF(duration=float(duration))
-                    self.threadMotorWheel(self.turnRF,{'duration':float(duration)})
+                    self.actionThreadMovement(self.turnRF,{'duration':float(duration)})
+                    self.threadMovement = threading.Thread(target=self.actionThreadMovement,kwargs={'mvt':self.turnRF,'duration':float(duration)})
                 elif command.lower()[4] == 's': # THREAD
                     self.turnRF(stopable=True)
                 elif command.lower()[4] == 'x':
-                    distance = command.lower()[4:]
-                    #self.turnRF(distance=float(distance))
-                    self.threadMotorWheel(self.turnRF,{'distance':float(distance)})
+                    angle = command.lower()[4:]
+                    #self.turnRF(distance=float(angle))
+                    self.threadMovement = threading.Thread(target=self.actionThreadMovement,kwargs={'mvt':self.turnRF,'angle':float(angle)})
             else:
                 #self.turnRF()
-                self.threadMotorWheel(self.turnRF)
-                
-            
-
+                self.threadMovement = threading.Thread(target=self.actionThreadMovement,kwargs={'mvt':self.turnRF})
+            self.threadMovement.start()
                 
         elif 'trb' in command.lower():
             if 't' in command.lower() and 'x' in command.lower() :
@@ -141,15 +145,16 @@ class Command(Camera,Movement):
                 if command.lower()[4] == 't'  :
                     duration = command.lower()[5:]
                     #self.turnRB(duration=float(duration))
-                    self.threadMotorWheel(self.turnRB,{'duration':float(duration)})
+                    self.threadMovement = threading.Thread(target=self.actionThreadMovement,kwargs={'mvt':self.turnRB,'duration':float(duration)})
                 elif command.lower()[4] == 's':# THREAD
                     self.turnRB(stopable=True)
                 elif command.lower()[4] == 'x':
-                    distance = command.lower()[4:]
-                    #self.turnRB(distance=float(distance))
-                    self.threadMotorWheel(self.turnRB,{'distance':float(distance)})
+                    angle = command.lower()[4:]
+                    #self.turnRB(distance=float(angle))
+                    self.threadMovement = threading.Thread(target=self.actionThreadMovement,kwargs={'mvt':self.turnRB,'angle':float(angle)})
             else:
-                self.threadMotorWheel(self.turnRB)
+                self.threadMovement = threading.Thread(target=self.actionThreadMovement,kwargs={'mvt':self.turnRB})
+            self.threadMovement.start()
                 
 
         elif 'tlf' in command.lower():
@@ -165,15 +170,16 @@ class Command(Camera,Movement):
                 if command.lower()[4] == 't'  :
                     duration = command.lower()[5:]
                     #self.turnLF(duration=float(duration))
-                    self.threadMotorWheel(self.turnLF,{'duration':float(duration)})
+                    self.threadMovement = threading.Thread(target=self.actionThreadMovement,kwargs={'mvt':self.turnLF,'duration':float(duration)})
                 elif command.lower()[4] == 's':# THREAD
                     self.turnLF(stopable=True)
                 elif command.lower()[4] == 'x':
-                    distance = command.lower()[4:]
-                    #self.turnLF(distance=float(distance))
-                    self.threadMotorWheel(self.turnLF,{'distance':float(distance)})
+                    angle = command.lower()[4:]
+                    #self.turnLF(distance=float(angle))
+                    self.threadMovement = threading.Thread(target=self.actionThreadMovement,kwargs={'mvt':self.turnLF,'angle':float(angle)})
             else:
-                self.threadMotorWheel(self.turnLF)
+                self.threadMovement = threading.Thread(target=self.actionThreadMovement,kwargs={'mvt':self.turnLF})
+            self.threadMovement.start()
 
         elif 'tlb' in command.lower():
             if 't' in command.lower() and 'x' in command.lower() :
@@ -188,16 +194,16 @@ class Command(Camera,Movement):
                 if command.lower()[4] == 't'  :
                     duration = command.lower()[5:]
                     #self.turnLB(duration=float(duration))
-                    self.threadMotorWheel(self.turnLB,{'duration':float(duration)})
+                    self.threadMovement = threading.Thread(target=self.actionThreadMovement,kwargs={'mvt':self.turnLB,'duration':float(duration)})
                 elif command.lower()[4] == 's':# THREAD
                     self.turnLB(stopable=True)
                 elif command.lower()[4] == 'x':
                     distance = command.lower()[4:]
                     #self.turnLB(distance=float(distance))
-                    self.threadMotorWheel(self.turnLB,{'distance':float(distance)})
-                    
+                    self.threadMovement = threading.Thread(target=self.actionThreadMovement,kwargs={'mvt':self.turnLB,'angle':float(angle)})               
             else:
-                self.threadMotorWheel(self.turnLB)
+                self.threadMovement = threading.Thread(target=self.actionThreadMovement,kwargs={'mvt':self.turnLF})
+            self.threadMovement.start()
 
         elif command.lower()[0] == 't': # regardé delay photo semble pas instatané peut-être mettre des thread ?
             
@@ -209,16 +215,16 @@ class Command(Camera,Movement):
             elif 'd' in command.lower():
                 delay = re.search('t d(.*)',command.lower()).group(1)
                 #self.takePicture(delay=float(delay))
-                self.threadCamera(self.takePicture,{'delay':float(delay)})
+                self.threadCamera = threading.Thread(target=self.actionThreadCamera,kwargs={'action':self.takePicture,'delay':delay})
                 
             elif 'n' in command.lower(): # THREAD
                 self.takePicture(nameable=True)
                 #self.threadCamera(self.takePicture,{'nameable':True})
             else:
-                self.threadCamera(self.takePicture)
+                self.threadCamera = threading.Thread(target=self.actionThreadCamera,kwargs={'action':self.takePicture})
+            self.threadCamera.start()
             
-                             
-            
+                                        
         elif command.lower()[0] == 'v':
             if 'd' in command.lower() and 'n' in command.lower() : # THREAD
                 duration = re.search('v d(.*) ',command.lower()).group(1)
@@ -233,20 +239,13 @@ class Command(Camera,Movement):
                 #self.threadCamera(self.recordVideo.{'nameable':True,'stopable':True})
             elif 'd' in command.lower():
                 duration = re.search('v d(.*)',command.lower()).group(1)
-                self.threadCamera(self.recordVideo,{'duration':float(duration)})
-                
-
+                self.threadCamera = threading.Thread(target=self.actionThreadCamera,kwargs={'action':self.recordVideo,'duration':duration})
+            self.threadCamera.start()
                 
         elif 'stop' in command.lower():
             self.stopAllMotor()
-            print('motor stopped')
             
-                
-        
-                
             
-
-        
         
     def info(self):
         q = 'q : quitté\n\n'

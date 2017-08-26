@@ -7,15 +7,27 @@ import pickle
 class Movement():
     def __init__(self,regtime = 1, frequency = 100, maxSpeed=1, startPourSpeed = 100):
         
-        gpio.setmode(gpio.BOARD)
-        self.motorCb = 7
-        self.motorCf = 11
-        self.motorBf = 37
-        self.motorDb = 31
-        self.motorDf = 33
-        self.motorBb = 35
-        self.motorAb = 13
-        self.motorAf = 15
+        gpio.setmode(gpio.BCM)
+        with open(r'/home/pi/Documents/Python_project/PgU1_code/pin_mapping/wheel_motor','r') as file:
+            for line in file:
+                print(line)
+                print(line[8:])
+                if 'motorCb' in line:
+                    self.motorCb = int(line[8:])
+                elif 'motorCf' in line:
+                    self.motorCf = int(line[8:])
+                elif 'motorBf' in line:
+                    self.motorBf = int(line[8:])
+                elif 'motorDb' in line:
+                    self.motorDb = int(line[8:])
+                elif 'motorDf' in line:
+                    self.motorDf = int(line[8:])
+                elif 'motorBb' in line:
+                    self.motorBb = int(line[8:])
+                elif 'motorAb' in line:
+                    self.motorAb = int(line[8:])
+                elif 'motorAf' in line:
+                    self.motorAf = int(line[8:])
 
         self.frequency = frequency
         self.regTime = regtime
