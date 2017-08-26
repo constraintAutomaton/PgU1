@@ -202,7 +202,7 @@ class Command(Camera,Movement):
                     #self.turnLB(distance=float(distance))
                     self.threadMovement = threading.Thread(target=self.actionThreadMovement,kwargs={'mvt':self.turnLB,'angle':float(angle)})               
             else:
-                self.threadMovement = threading.Thread(target=self.actionThreadMovement,kwargs={'mvt':self.turnLF})
+                self.threadMovement = threading.Thread(target=self.actionThreadMovement,kwargs={'mvt':self.turnLB})
             self.threadMovement.start()
 
         elif command.lower()[0] == 't': # regardé delay photo semble pas instatané peut-être mettre des thread ?

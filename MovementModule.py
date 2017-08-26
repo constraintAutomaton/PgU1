@@ -10,8 +10,6 @@ class Movement():
         gpio.setmode(gpio.BCM)
         with open(r'/home/pi/Documents/Python_project/PgU1_code/pin_mapping/wheel_motor','r') as file:
             for line in file:
-                print(line)
-                print(line[8:])
                 if 'motorCb' in line:
                     self.motorCb = int(line[8:])
                 elif 'motorCf' in line:
