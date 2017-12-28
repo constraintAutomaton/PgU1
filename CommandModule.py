@@ -1,3 +1,4 @@
+# coding: utf-8
 from CameraModule import Camera
 from MovementModule import Movement
 import RPi.GPIO as gpio
@@ -205,7 +206,8 @@ class Command(Camera,Movement):
                 self.threadMovement = threading.Thread(target=self.actionThreadMovement,kwargs={'mvt':self.turnLB})
             self.threadMovement.start()
 
-        elif command.lower()[0] == 't': # regardé delay photo semble pas instatané peut-être mettre des thread ?
+        elif command.lower()[0] == 't':
+            # regardé delay photo semble pas instatané peut-être mettre des thread ?
             
             if 'd' in command.lower() and 'n' in command.lower(): # THREAD
                 delay = re.search('t d(.*) n',command.lower()).group(1)

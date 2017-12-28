@@ -35,7 +35,7 @@ class Movement():
                           self.motorCb,self.motorDf,self.motorDb]
         
         self.initGpio()
-        #self.initPwm() # on va emplémenter sa plus tard
+        
         self.initTestFileLocation()
         
     def initGpio(self): 
@@ -62,7 +62,7 @@ class Movement():
 
         self.listPWM = [self.motorCbP, self.motorCfP, self.motorBfP, self.motorDbP,
                         self.motorDfP, self.motorBbP, self.motorAbP, self.motorAfP]
-        for PWM in self.listPWM: # empêche le robot de bouger
+        for PWM in self.listPWM: 
            PWM.start(0)
            
     def initTestFileLocation(self):
@@ -84,12 +84,12 @@ class Movement():
         elif distance>0:
             time.sleep(self.distanceApprox(distance,testFile))
         elif angle>0:
-            time.sleep(self.distanceApprox(angle,testFile)) # a testé
+            time.sleep(self.distanceApprox(angle,testFile))
         else:
             
             time.sleep(self.regTime)
             
-        self.listMotor = [self.motorAf,self.motorAb,self.motorBf,self.motorBb,self.motorCf, # reset la liste pour une nouvelle opération
+        self.listMotor = [self.motorAf,self.motorAb,self.motorBf,self.motorBb,self.motorCf, 
                           self.motorCb,self.motorDf,self.motorDb]
         for motor in self.listMotor:
             gpio.output(motor,False) 
@@ -153,7 +153,7 @@ class Movement():
         gpio.cleanup()
         
     def distanceApprox(self,distance,typeFile,speedPour=100):
-        #on suppose que la vitesse est linéaire
+        
         k = 0
         ya = 0
         xa = 0
@@ -175,7 +175,7 @@ class Movement():
       
     def testSpeed(self,typeMvt,duration):
         
-        #duration = input('set the duration of the {} movement: '.format(typeMvt))
+        
         if typeMvt == 'f':
             self.forward(duration=duration)
             typeFile = self.testF

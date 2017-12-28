@@ -2,6 +2,7 @@ from picamera import PiCamera
 import os
 import shutil
 import time
+import socket
 from time import strftime
 
 
@@ -67,6 +68,30 @@ class Camera():
          
         shutil.move(nameFile,self.destinationVideo)
 
+    def stream(self,ip='',port=5555):
+        serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        
+
+        try:
+            serverSocket.bind((ip,port))
+            serverSocket.listen(0)
+            connection = serverSocket.accept()[0].makefile('wb')
+            with PiCamera() as camera:
+             camera.resolution= self.resolutionVideo
+             camera.framerate = 30
+             camera.vflip = True
+             camera.start_recording(connection, format='h264')
+             camera.wait_recording(60)
+             camera.stop_recording()
+        except socket.error as e:
+            print(str(e))
+        finally:
+            connection.close()
+            serverSocket.close()
+            
+            
+        
+        
     
 
 
