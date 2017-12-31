@@ -1,12 +1,11 @@
 
 int laserPin ;
 char userInput;
-boolean switchLaser;
+
 
 void setup() {
   Serial.begin(9600);
-  switchLaser = false;
-  laserPin = 6;
+  laserPin = 7;
   pinMode(laserPin, OUTPUT);
   
   
@@ -18,31 +17,25 @@ void loop() {
     
     userInput = Serial.read();
     
-    if(userInput == 'l'){
-      
-      if(switchLaser == false){
-        
-        switchLaser = true;
-      }
-      
-      else{
-        switchLaser = false;
-      laserCommand();
-      }
-      
-    }
+   switch(userInput){
+     case 'l':
+       laserOn();
+       break;
+     case 'g':
+       laserOff();
+       break;
+       
     
    
+    }
   }
 }
 
-void laserCommand(){
-  
-    if(switchLaser==true){
-      digitalWrite(laserPin, HIGH);
+void laserOn(){
+  digitalWrite(laserPin, HIGH);
       
-       }
-    else{
-      digitalWrite(laserPin, LOW);
-    }  
+}
+
+void laserOff(){
+  digitalWrite(laserPin, LOW);
 }
