@@ -1,7 +1,7 @@
 # PgU1
 The raspberry pi code of an RC car whit a camera
 
-## Goal
+## Objectif
 The objectif is to make a RC car that can be control via a computer and that can patrol a room.
 
 It will use a laser and a camera to locate the car in the space.The laser will be used as a speed and distance captor using openCv.
