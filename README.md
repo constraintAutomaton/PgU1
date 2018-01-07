@@ -7,7 +7,7 @@ The objectif is to make a RC car that can be control via a computer and that can
 It will use a laser and a camera to locate the car in the space.The laser will be used as a speed and distance captor using openCv.
 The pi will not handle the video analysit it will be the computer.
 
-The machine will be able to take video and photo and stock it in the pi and transfer those 
+The machine will be able to take video and photo and stock it in the pi memory and transfer those 
 video and photo.
 
 A raspberry pi will be the core of the machine. It will command the camera, the movement module and the 
