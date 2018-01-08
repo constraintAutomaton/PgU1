@@ -23,4 +23,9 @@ s'occupe de l'analyse des images et envoie des commandes au rapsberry pi à dist
 
 Ordinateur ->Raspberry pi ->arduino->composante de la machine
 
+## Répertoire associé
+
+Le code du côté de l'ordinateur : https://github.com/featTheB/client_pgU1
+
+La modélisation solide : https://github.com/featTheB/CAD-pgU1
 
