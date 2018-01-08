@@ -15,6 +15,6 @@ The RC car will be design using Creo parametric 2.0 and printed in 3d.
 The raspberry pi will be the core of the machine. It command the camera, the movement module and the 
 intern memory. The pi is connected to an arduino that execute the command to the motors and laser using the serial port. The computer send command to the pi accordingly to the user and do the video analysis. 
 
-Computer -> Pi -> arduino
+Computer -> Pi -> arduino -> hardware
 
 
