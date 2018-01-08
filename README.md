@@ -17,4 +17,9 @@ intern memory. The pi is connected to an arduino that execute the command to the
 
 Computer -> Pi -> arduino -> hardware
 
+## Associate repository
+
+The code for the computer side : https://github.com/featTheB/client_pgU1
+The solid modelisation : https://github.com/featTheB/CAD-pgU1
+
 
