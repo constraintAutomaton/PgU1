@@ -4,7 +4,7 @@ The raspberry pi code of an RC car whit a camera
 ## Objectif
 The objectif is to make a RC car that can be control via a computer and that can patrol a room.
 
-It use a laser and a camera to locate the car in the space.The laser and camera will be used as a speed and distance captor using openCv (python).The computer will handle the video analysis.
+It use a laser and a camera to locate the car in the space.The laser and camera will be used as a speed and distance captor using openCv (python).The computer linked to the rapsberry pi by SSH using the paramiko library will handle the video analysis.
 
 The machine will be able to take video and photo and stock it in the pi intern memory and transfer those 
 files to the computer.
