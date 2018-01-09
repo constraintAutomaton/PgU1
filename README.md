@@ -1,5 +1,5 @@
 # PgU1
-RC Car build whit a raspberry pi and an arduino.
+RC Car build whit a Raspberry pi and an Arduino.
 
 ## Objectif
 The objectif is to make a RC car that can be control via a computer and that can patrol a room.
@@ -12,10 +12,10 @@ files to the computer.
 The RC car will be design using Creo parametric 2.0 and printed in 3d.
 
 ## Operation
-The raspberry pi will be the core of the machine. It commands the camera, the movement module and the 
-intern memory. The pi is connected to an arduino that execute the command to the motors and laser using the serial port. The computer sends command to the pi accordingly to the user and do the video analysis. 
+The Raspberry pi will be the core of the machine. It commands the camera, the movement module and the 
+intern memory. The pi is connected to an Arduino that execute the command to the motors and laser using the serial port. The computer sends command to the pi accordingly to the user and do the video analysis. 
 
-Computer -> Pi -> arduino -> hardware
+Computer -> Pi -> Arduino -> hardware
 
 ## Associate repository
 
