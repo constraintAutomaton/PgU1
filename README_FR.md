@@ -1,6 +1,6 @@
 # PgU1
 
-Une voiture téléguidée construit à l'aide d'un raspberry pi et d'un arduino.
+Une voiture téléguidée construit à l'aide d'un Raspberry pi et d'un arduino.
 
 ## Objectif
 
@@ -18,9 +18,9 @@ La voiture est designer à l'aide du logiciel Creo Parametric 2.0 et est imprim�
 
 ## Fonctionnement 
 
-Le raspberry pi est le coeur de la machine. Il commande la caméra, le laser, le mouvement du robot et la mémoire interne.
+Le Raspberry pi est le coeur de la machine. Il commande la caméra, le laser, le mouvement du robot et la mémoire interne.
 Celui-ci est connecté à un arduino exécutes les commandes du rapsberry pi sur les moteurs et le laser à l'aide du port série .L'ordinateur
-s'occupe de l'analyse des images et envoie des commandes au rapsberry pi à distance.
+s'occupe de l'analyse des images et envoie des commandes au Rapsberry pi à distance.
 
 Ordinateur ->Raspberry pi ->arduino->composante de la machine
 
