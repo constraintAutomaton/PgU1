@@ -11,7 +11,7 @@ Afin de se localiser dans l'espace elle est munie d'une caméra et d'un pointeur
 servent de capteur de vitesse et de distance. L'analyse des données est gérée par un ordinateur lié
 pas SSH au Rapsberry pi à l'aide de la librairie paramiko. 
 
-Le robot est capable de prendre des vidéos et des photos et de les stocker dans la mémoire interne du Rapsberry pi
+Le robot est capable de prendre des photos et des vidéos et de les stocker dans la mémoire interne du Rapsberry pi
 . Il est aussi capable ces fichiers dans l'ordinateur hôte.
 
 La voiture est designer à l'aide du logiciel Creo Parametric 2.0 et est imprimée en 3D
