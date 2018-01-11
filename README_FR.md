@@ -1,6 +1,6 @@
 # PgU1
 
-Une voiture téléguidée construit à l'aide d'un Raspberry pi et d'un Arduino.
+Une voiture téléguidée construite à l'aide d'un Raspberry pi et d'un Arduino.
 
 ## Objectif
 
