@@ -14,7 +14,7 @@ pas SSH au Rapsberry pi à l'aide de la librairie paramiko.
 Le robot est capable de prendre des photos et des vidéos et de les stocker dans la mémoire interne du Rapsberry pi
 . Il est aussi capable de transférer ces fichiers dans l'ordinateur hôte.
 
-La voiture est modélisée à l'aide du logiciel Creo Parametric 2.0 et est imprimée en 3D
+La voiture est modélisée à l'aide du logiciel Creo Parametric 2.0 et est imprimée en 3D.
 
 ## Fonctionnement 
 
