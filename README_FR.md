@@ -8,7 +8,7 @@ l'objectif est de concevoir une voiture téléguidée qui peut être contrôlée
 et qui peut patrouiller une pièce.
 
 Afin de se localiser dans l'espace elle est munie d'une caméra et d'un pointeur laser. Ces deux outils conjointement avec openCv (python) 
-servent de capteur de vitesse et de distance. L'analyse de donnée sera géré par un ordinateur lié
+servent de capteur de vitesse et de distance. L'analyse des données sera géré par un ordinateur lié
 pas SSH au Rapsberry pi à l'aide de la librairie paramiko. 
 
 Le robot est capable de prendre des vidéos et des photos et de les stocker dans la mémoire interne du Rapsberry pi
