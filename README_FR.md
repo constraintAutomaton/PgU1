@@ -19,7 +19,7 @@ La voiture est modélisée à l'aide du logiciel Creo Parametric 2.0 et est impr
 ## Fonctionnement 
 
 Le Raspberry pi est le coeur de la machine. Il commande la caméra, le laser, le mouvement du robot et la mémoire interne.
-Celui-ci est connecté à un Arduino exécutes les commandes du Rapsberry pi sur les moteurs et le laser à l'aide du port série .L'ordinateur
+Celui-ci est connecté à un Arduino qui exécutes les commandes du Rapsberry pi sur les moteurs et le laser à l'aide du port série .L'ordinateur
 s'occupe de l'analyse des images et envoie des commandes au Rapsberry pi à distance.
 
 Ordinateur ->Raspberry pi ->Arduino->composante de la machine
