@@ -4,7 +4,7 @@ Une voiture téléguidée construite à l'aide d'un Raspberry pi et d'un Arduino
 
 ## Objectif
 
-l'objectif est de faire une voiture téléguidée qui peut être contrôlée par un ordinateur
+l'objectif est de concevoir une voiture téléguidée qui peut être contrôlée par un ordinateur
 et qui peut patrouiller une pièce
 
 Afin de se localiser dans l'espace elle est munie d'une caméra et d'un pointeur laser. Ces deux outils conjointement avec openCv (python) 
