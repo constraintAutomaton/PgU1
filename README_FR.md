@@ -26,7 +26,7 @@ Ordinateur ->Raspberry pi ->Arduino->composante de la machine
 
 ## Répertoire associé
 
-Le code du côté de l'ordinateur : https://github.com/featTheB/client_pgU1
+Le code de l'ordinateur : https://github.com/featTheB/client_pgU1
 
 La modélisation solide : https://github.com/featTheB/CAD-pgU1
 
