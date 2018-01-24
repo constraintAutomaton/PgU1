@@ -8,7 +8,7 @@ class Movement():
     def __init__(self,regtime = 1, frequency = 100, maxSpeed=1, startPourSpeed = 100):
         
         gpio.setmode(gpio.BCM)
-        with open(r'pin_mapping/wheel_motor','r') as file:
+        with open(r'/home/pi/python_project/PgU1/PgU1/pin_mapping/wheel_motor','r') as file:
             for line in file:
                 if 'motorCb' in line:
                     self.motorCb = int(line[8:])
@@ -66,12 +66,12 @@ class Movement():
            PWM.start(0)
            
     def initTestFileLocation(self):
-        self.testF = r'speed_test/testF.pickle'
-        self.testB = r'speed_test/testB.pickle'
-        self.testTrf = r'speed_test/testTrf.pickle'
-        self.testTrb = r'speed_test/testTrb.pickle'
-        self.testTlf = r'speed_test/testTlf.pickle'
-        self.testTlb = r'speed_test/testTlb.pickle'
+        self.testF = r'/home/pi/python_project/PgU1/PgU1/speed_test/speed_test/testF.pickle'
+        self.testB = r'/home/pi/python_project/PgU1/PgU1/speed_test/speed_test/testB.pickle'
+        self.testTrf = r'/home/pi/python_project/PgU1/PgU1/speed_test/speed_test/testTrf.pickle'
+        self.testTrb = r'/home/pi/python_project/PgU1/PgU1/speed_test/speed_test/testTrb.pickle'
+        self.testTlf = r'/home/pi/python_project/PgU1/PgU1/speed_test/speed_test/testTlf.pickle'
+        self.testTlb = r'/home/pi/python_project/PgU1/PgU1/speed_test/speed_test/testTlb.pickle'
         
     def holdOn(self,duration,stopable,distance,angle,testFile):
 

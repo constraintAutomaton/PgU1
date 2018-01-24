@@ -16,8 +16,8 @@ class Camera():
         self.resolutionPhoto = (1024, 768)
         self.resolutionVideo = (640, 480)
         self.qualityVideo = 23
-        self.destinationPhoto = r'Photo'
-        self.destinationVideo = r'Video'
+        self.destinationPhoto = r'/home/pi/python_project/PgU1/PgU1/Photo'
+        self.destinationVideo = r'/home/pi/python_project/PgU1/PgU1/Video'
         self.extensionPhoto = 'jpg'
         self.extensionVideo = 'h264'
 
@@ -84,9 +84,7 @@ class Camera():
          
         shutil.move(nameFile,r'{}/{}'.format(self.destinationVideo,nameFile))
 
-a = Camera()
-a.takePicture()
-            
+
         
         
     

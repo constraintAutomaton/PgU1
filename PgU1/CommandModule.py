@@ -6,6 +6,7 @@ import os
 import re
 import threading
 from queue import Queue
+import paramiko
 
 
 class Command(Camera,Movement):
@@ -47,14 +48,17 @@ class Command(Camera,Movement):
         callFuction()
         self.qCamera.task_done()
         
-    def command(self,command): 
+    def command(self,command):
         if command.lower() == 'q':
             self.run = False
             self.kill()
             print('exit')
         elif command.lower() == 'i':
             self.info()
-                    
+            
+        elif command.lower() =='test':
+            self.test_connection()
+            
         elif command.lower()[0] == 'f':
             if 't' in command.lower() and 'x' in command.lower() :
                 print('enter only one type of movement')
@@ -246,6 +250,8 @@ class Command(Camera,Movement):
                 
         elif 'stop' in command.lower():
             self.stopAllMotor()
+
+        
             
             
         
@@ -278,7 +284,8 @@ for a duration of t(s) or until the user press a key\n\n'
         info = q+t+v+f+b+trf+trb+tlf+tlb+stop
 
         print(info)
-        
+    def test_connection(self):
+        print('command receive')
     
         
 a = Command()
