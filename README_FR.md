@@ -24,9 +24,14 @@ s'occupe de l'analyse des données et envoie des commandes au Rapsberry pi à di
 
 Ordinateur ->Raspberry pi ->Arduino->composante de la machine
 
+![alt text](https://github.com/featTheB/CAD-pgU1/blob/master/pdf_3d/assembly.jpg)
+
 ## Répertoire associé
 
 Le code de l'ordinateur : https://github.com/featTheB/client_pgU1
 
 La modélisation solide : https://github.com/featTheB/CAD-pgU1
 
+## vidéo démo
+capteur laser : https://youtu.be/xnBF-KOUick
+matrice de localisation : https://youtu.be/wZwgmBapSVI
