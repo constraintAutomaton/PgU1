@@ -33,6 +33,6 @@ Le code de l'ordinateur : https://github.com/featTheB/client_pgU1
 La modélisation solide : https://github.com/featTheB/CAD-pgU1
 
 ## vidéo démo
-capteur laser : https://youtu.be/xnBF-KOUick
+capteur de distance : https://youtu.be/xnBF-KOUick
 
 matrice de localisation : https://youtu.be/wZwgmBapSVI
