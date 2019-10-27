@@ -2,8 +2,6 @@
 RC Car build whit a Raspberry pi.
 
 
-![alt text](https://github.com/featTheB/CAD-pgU1/blob/master/pdf_3d/assembly.jpg)
-
 
 ## Associate repository
 
